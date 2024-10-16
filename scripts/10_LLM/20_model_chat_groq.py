@@ -1,8 +1,8 @@
 #%% packages
 import os
 from langchain_groq import ChatGroq
-from dotenv import load_dotenv
-load_dotenv('../.env')
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv(usecwd=True))
 # %%
 # Model overview: https://console.groq.com/docs/models
 MODEL_NAME = 'llama-3.1-70b-versatile'

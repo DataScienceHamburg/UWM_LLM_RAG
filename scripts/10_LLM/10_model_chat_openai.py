@@ -1,8 +1,8 @@
 #%% packages
 import os
 from langchain_openai import ChatOpenAI
-from dotenv import load_dotenv
-load_dotenv('../.env')
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv(usecwd=True))
 # %%
 # %% OpenAI models
 # https://platform.openai.com/docs/models/overview
