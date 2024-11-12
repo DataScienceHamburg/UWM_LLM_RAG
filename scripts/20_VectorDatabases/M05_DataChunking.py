@@ -77,4 +77,42 @@ print(f"Number of Tokens in each chunk: {agg_chunks}")
 plt.bar(range(len(agg_chunks)), agg_chunks)
 plt.title('Number of Tokens in each chunk')
 
+# %% Proposal Indexing
+from langchain_openai import ChatOpenAI
+from langchain.pydantic_v1 import BaseModel
+from typing import List
+from langchain import hub
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv(usecwd=True))
+
+#%% 
+prompt = hub.pull("wfh/proposal-indexing")
+
+#%%
+llm = ChatOpenAI(model="gpt-4o")
+
+
+# A Pydantic model to extract sentences from the passage
+class Sentences(BaseModel):
+    sentences: List[str]
+
+extraction_llm = llm.with_structured_output(Sentences)
+
+
+# Create the sentence extraction chain
+extraction_chain = prompt | extraction_llm
+
+
+# Test it out
+sentences = extraction_chain.invoke(
+    """
+    On July 20, 1969, astronaut Neil Armstrong walked on the moon . 
+    He was leading the NASA's Apollo 11 mission. 
+    Armstrong famously said, "That's one small step for man, one giant leap for mankind" as he stepped onto the lunar surface.
+    """
+)
+
+
 # %%
+pprint(sentences.sentences)
