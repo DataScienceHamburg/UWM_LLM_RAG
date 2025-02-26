@@ -3,3 +3,6 @@
 .venv/
 db/
 dbnew/
+*.index
+*.pkl
+*.faiss
